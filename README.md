@@ -1,5 +1,7 @@
 # Poker — an offline Texas Hold’em learning lab
 
+https://flakeer.github.io/poker-trainer/
+
 > **Vibe-coded with Claude Sonnet 5.5.** Built as a hands-on experiment in using AI to create a playable poker game and a place to learn poker by making decisions, testing ideas, and reviewing the reasoning afterward.
 
 Poker is a browser-based Texas Hold’em trainer and AI-versus-AI sandbox. It runs locally, needs no account or backend, and uses no real money.
