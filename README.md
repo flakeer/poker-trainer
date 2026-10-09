@@ -150,7 +150,7 @@ This is a personal, AI-assisted project released in the open so others can explo
 
 Contributions and constructive feedback are welcome—especially around poker logic, testing, explainability, accessibility, usability, and making the learning experience clearer. Please include reproduction steps for bugs and explain the expected behavior when opening an issue.
 
-Before publishing or accepting contributions, add a `LICENSE` file that reflects the license you want to use. Without a license, people generally do not automatically receive permission to reuse, modify, or redistribute the code.
+This project is released under the [MIT License](LICENSE).
 
 ## AI-assisted development disclosure
 

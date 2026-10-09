@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080d">
+<title>Offline Poker</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="home" role="dialog" aria-label="Home">
+ <div class="hbox">
+  <div class="brand big">POKER<span>.</span></div>
+  <p class="tag">Build your table and pick how you want to play.</p>
+  <div id="lvlbar"><div class="lvlrow"><b id="lvln"></b><span id="lvlx"></span><span id="streakn"></span></div><div class="bar"><i id="lvlfill"></i></div><small id="nextstep"></small></div>
+  <div id="bankbar"><b id="bankn"></b><span id="bankmsg"></span></div>
+  <h3>Mode</h3>
+  <div class="modes">
+   <button class="mcard on" data-mode="trainer"><b>🎓 Trainer</b><small>A coach tells you what to do and why, and reviews every hand. Practice only: it uses no bank coins and isn't saved to History or the Leaderboard.</small></button>
+   <button class="mcard" data-mode="master"><b>⚔️ Gauntlet</b><small>No hints and no coach. Just you against opponents who adapt to your style. You get 10 seconds per decision.</small></button>
+  <button class="mcard" data-mode="spectate"><b>👀 Spectate</b><small>Watch the AIs play each other with every card face-up. Free, no coins.</small></button>
+  </div>
+  <h3>Your table</h3>
+  <div class="hgrid">
+   <label>Players <select id="h_seats"><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option></select></label>
+   <label>Buy-in <select id="stack"><option value="500">500 coins · 50bb (short)</option><option value="1000" selected>1,000 coins · 100bb</option><option value="2000">2,000 coins · 200bb (deep)</option></select></label>
+   <label id="h_coachlbl">Coach <select id="h_coach"><option value="full">Full advice</option><option value="nums">Numbers only</option><option value="off">Off</option></select></label>
+   <label>Game speed <select id="speed"><option value="relaxed" selected>Relaxed (slow)</option><option value="normal">Normal</option><option value="fast">Fast</option></select></label>
+   <label>Hand reviews <select id="h_vex"><option value="notable">Notable hands</option><option value="every">Every hand</option><option value="off">Off</option></select></label>
+  </div>
+  <button id="deal" class="go big">Deal me in</button>
+  <div class="duo"><button id="rbtn" class="big">🧭 Roadmap</button><button id="lbtn" class="big">🏆 Leaderboard</button></div>
+  <div class="duo"><button id="hbtn" class="big">📜 History</button><button id="bbtn" class="big">🏅 Badges</button></div>
+  <button id="resume" class="big" hidden>Back to table</button>
+ </div>
+</div>
+<div id="chartpop" hidden role="dialog" aria-label="Strategy chart"><div class="cbox">
+  <div class="chead"><b>Where is my hand?</b><button id="cclose">Close</button></div>
+  <div id="cwhy"></div><div id="cgrid" class="cgrid"></div><div id="cleg"></div>
+  <small class="tag">Pairs run down the diagonal, suited hands (s) are above it, offsuit hands (o) below. Your hand is outlined in gold.</small>
+</div></div>
+<div id="sumpop" hidden role="dialog" aria-label="Table summary"><div class="cbox">
+  <h2 style="margin:0">Table summary</h2><div id="sumbody"></div>
+  <button id="sumleave" class="go big">Main menu</button><button id="sumback" class="big">Back to table</button>
+</div></div>
+<div id="histpop" hidden role="dialog" aria-label="History"><div class="cbox"><div class="chead"><b>History</b><button id="hclose">Close</button></div><div id="hbody"></div></div></div>
+<div id="badgepop" hidden role="dialog" aria-label="Badges"><div class="cbox"><div class="chead"><b>Badges</b><button id="bclose">Close</button></div><div id="bbody"></div></div></div>
+<div id="lbpop" class="pop" hidden role="dialog" aria-label="Leaderboard"><div class="cbox"><div class="chead"><b>🏆 Leaderboard</b><button id="lclose">Close</button></div><small class="tag">You and the AI regulars, ranked by win rate (big blinds per 100 hands) once they have 20+ hands. Includes hands you watched. Trainer practice hands are not counted.</small><div id="lbbody"></div></div></div>
+<div id="lessonpop" hidden role="dialog" aria-label="Lesson"><div class="cbox"><div class="chead"><b id="ltitle"></b><button id="lx">Close</button></div><div id="lbody"></div><div id="lbtns"></div></div></div>
+<header>
+  <div class="brand">POKER<span>.</span></div>
+  <div class="hctl">
+    <button id="homebtn">🚪 Leave</button>
+    <button id="chartbtn" hidden>📊 Chart</button>
+    <button id="speedbtn" aria-label="Game speed" title="Game speed">🐢</button>
+    <button id="layoutbtn" aria-label="Switch layout" title="Switch between side-panel and classic layout">🧩</button>
+    <label class="gone">Mode <select id="mode"><option value="trainer">Trainer</option><option value="master">Gauntlet</option><option value="spectate">Spectate</option></select></label>
+    <label id="coachlbl">Coach <select id="coachmode"><option value="full">Full advice</option><option value="nums">Numbers only</option><option value="off">Off</option></select></label>
+    <label class="gone">Players <select id="seats"><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option></select></label>
+    <label class="gone">Vex <select id="vexmode"><option value="notable">Notable hands</option><option value="every">Every hand</option><option value="off">Off</option></select></label>
+    <button id="revbtn" disabled>Review</button>
+    <span class="snd"><button id="sfx" aria-label="Sound on or off" title="Sound on/off">🔊</button><input id="vol" type="range" min="0" max="100" aria-label="Volume"></span>
+    <button id="newgame">New game</button>
+  </div>
+</header>
+<main id="table">
+  <div id="felt"></div>
+  <div id="ring"></div>
+  <div id="bets"></div>
+  <div id="toast" aria-live="polite"></div>
+  <div id="review" role="dialog" aria-label="Hand review" hidden></div>
+  <div id="center"><div id="board"></div><div id="pot"></div><div id="msg" aria-live="polite"></div></div>
+</main>
+<section id="coach" aria-live="polite"></section>
+<details id="mist"><summary>Mistake log</summary><div id="mlist">Nothing yet.</div></details>
+<div id="clockbar" hidden role="timer" aria-label="Time left to act"><i></i><span></span></div>
+<footer id="controls"></footer>
+<script src="js/tab-guard.js"></script>
+<script src="js/no-worker.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/equity.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/trainer.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/review.js"></script>
+<script src="js/vex.js"></script>
+<script src="js/sfx.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/effects.js"></script>
+</body>
+</html>
