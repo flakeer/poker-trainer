@@ -122,6 +122,16 @@ node tests/fairness.test.js
 
 The test script simulates games across AI personalities and checks hidden-card access, shuffle behavior, and chip conservation.
 
+## Screenshots
+
+![Hand review in the side panel](docs/screenshots/05-side-panel-review.png)
+
+| Home | Trainer coach | Gauntlet |
+|---|---|---|
+| ![Home menu](docs/screenshots/01-home-menu.png) | ![Coach advice](docs/screenshots/02-trainer-coach-advice.png) | ![Gauntlet timer](docs/screenshots/04-gauntlet-shot-clock.png) |
+
+![Learning roadmap](docs/screenshots/06-learning-roadmap.png)
+
 ## Data and privacy
 
 The game's bank, XP, history, and leaderboard are stored in your browser's `localStorage`. The project does not need an account or server to play. Local browser storage is not tamper-proof; values can be changed through developer tools, and clearing site data may erase progress.
